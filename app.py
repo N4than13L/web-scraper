@@ -1,6 +1,9 @@
 import csv 
 import requests
 from bs4 import BeautifulSoup
+from fpdf import FPDF
+import pdfkit
+import os 
 
 def obtener_html(url):
     """ 
@@ -79,7 +82,7 @@ def extraer_articulos(html):
         articulo = {}
 
         # extraer el título del artículo si está disponible
-        titulo_elem = articulo_elem.find(['h1', 'h2', 'h3']) or articulo_elem.select_one('.title, .headline')
+        titulo_elem = articulo_elem.find(['h1', 'h2', 'h3',]) or articulo_elem.select_one('.title, .headline')
 
         if titulo_elem:
             articulo['titulo'] = titulo_elem.text.strip()
@@ -94,11 +97,8 @@ def extraer_articulos(html):
         resumen_elem = articulo_elem.select_one('.summary, .excerpt, .description, .snippet, p')  # Tomar el primer párrafo como resumen
         articulo['resumen'] = resumen_elem.text.strip() if resumen_elem else ""
 
-
-    
-
     # extraer contenido del contenido del artículo
-        contenido = articulo_elem.select_one('div .article-content ')  # Tomar el primer párrafo como resumen
+        contenido = articulo_elem.select_one('div .article-content, .outer_page_container, .newpage, span .a-price-whole')  # Tomar el primer párrafo como resumen
         articulo['contenido'] = contenido.text.strip() if contenido else ""
         if contenido:
             articulo['contenido'] = contenido.text.strip()
@@ -111,7 +111,7 @@ def extraer_articulos(html):
         # agregar el artículo a la lista si tiene título y resumen
     return articulos
     
-html = obtener_html("https://www.xataka.com/robotica-e-ia/meta-gasto-al-14-000-millones-dolares-para-ganar-carrera-ia-ha-pasado-ano-sigue-exactamente-donde-estaba")
+html = obtener_html("https://www.amazon.com/s?k=ryzen+7+9800x%2B3d&crid=31FZTVY8HKFJJ&sprefix=ryzen+%2Caps%2C174&ref=nb_sb_ss_p13n-expert-pd-ops-ranker_1_6")
 
-print(extraer_articulos(html))
+print(extraer_titulos_web(html))
 
