@@ -111,7 +111,7 @@ def extraer_articulos(html):
         # agregar el artículo a la lista si tiene título y resumen
     return articulos
     
-html = obtener_html("https://www.amazon.com/s?k=ryzen+7+9800x%2B3d&crid=31FZTVY8HKFJJ&sprefix=ryzen+%2Caps%2C174&ref=nb_sb_ss_p13n-expert-pd-ops-ranker_1_6")
+html = obtener_html("https://blogdeinteligenciaartificial.com/")
 
 print(extraer_titulos_web(html))
 
